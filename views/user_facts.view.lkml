@@ -1,0 +1,80 @@
+view: user_facts {
+  derived_table: {
+    sql: SELECT
+        order_items.user_id as user_id
+        , COUNT(DISTINCT order_items.order_id) as lifetime_orders
+        , SUM(order_items.sale_price) AS lifetime_revenue
+        , MIN(order_items.created_at) as first_order
+        , MAX(order_items.created_at) as latest_order
+        , COUNT(DISTINCT DATE_TRUNC('month', order_items.created_at)) as number_of_distinct_months_with_orders
+        , SUM(order_items.sale_price) AS order_value
+      FROM order_items
+      GROUP BY user_id ;;
+
+    # sql_trigger_value: select current_date ;;
+    # datagroup_trigger: midnight
+
+    # sortkeys: ["user_id"]
+    # distribution: "user_id"
+    }
+
+    dimension_group: first_order {
+      type: time
+      timeframes: [date, week, month, year]
+      sql: ${TABLE}.first_order ;;
+    }
+
+    dimension_group: latest_order {
+      type: time
+      timeframes: [date, week, month, year]
+      sql: ${TABLE}.latest_order ;;
+    }
+
+    dimension: user_id {
+      primary_key: yes
+      sql: ${TABLE}.user_id ;;
+      hidden: yes
+    }
+
+    dimension: order_value {
+      type: number
+      value_format_name: usd
+      sql: ${TABLE}.order_value ;;
+      hidden: yes
+    }
+
+    dimension: lifetime_orders {
+      type: number
+      sql: ${TABLE}.lifetime_orders ;;
+      hidden: yes
+    }
+
+    dimension: lifetime_revenue {
+      type: number
+      sql: ${TABLE}.lifetime_revenue ;;
+      hidden: yes
+    }
+
+    dimension: distinct_months_with_orders {
+      type: number
+      sql: ${TABLE}.number_of_distinct_months_with_orders ;;
+    }
+
+    measure: average_order_value {
+      type: average
+      sql:${TABLE}.order_value ;;
+      value_format_name: usd
+    }
+
+    measure: average_lifetime_revenue {
+      type: average
+      sql: ${lifetime_revenue} ;;
+      value_format_name: usd
+    }
+
+  measure: average_lifetime_orders {
+    type: average
+    sql: ${lifetime_orders} ;;
+    value_format_name: decimal_1
+  }
+  }
