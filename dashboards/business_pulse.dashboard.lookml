@@ -6,7 +6,7 @@
   elements:
   - title: Average Order Sale Price
     name: Average Order Sale Price
-    model: applovin_bootcamp
+    model: applovin_looker_bootcamp
     explore: order_items
     type: single_value
     fields: [order_items.average_sale_price]
@@ -65,7 +65,7 @@
     height: 4
   - title: Average Spend Per User
     name: Average Spend Per User
-    model: applovin_bootcamp
+    model: applovin_looker_bootcamp
     explore: order_items
     type: single_value
     fields: [order_items.average_spend_per_user]
@@ -677,7 +677,7 @@
     ui_config:
       type: advanced
       display: popover
-    model: applovin_bootcamp
+    model: applovin_looker_bootcamp
     explore: order_items
     listens_to_filters: []
     field: users.state
@@ -690,7 +690,7 @@
     ui_config:
       type: advanced
       display: popover
-    model: applovin_bootcamp
+    model: applovin_looker_bootcamp
     explore: order_items
     listens_to_filters: [State]
     field: users.city
@@ -703,7 +703,7 @@
     ui_config:
       type: advanced
       display: popover
-    model: applovin_bootcamp
+    model: applovin_looker_bootcamp
     explore: order_items
     listens_to_filters: []
     field: products.brand
@@ -717,7 +717,7 @@
       type: advanced
       display: popover
       options: []
-    model: applovin_bootcamp
+    model: applovin_looker_bootcamp
     explore: order_items
     listens_to_filters: []
     field: order_items.created_year
@@ -731,7 +731,7 @@
       type: checkboxes
       display: popover
       options: []
-    model: applovin_bootcamp
+    model: applovin_looker_bootcamp
     explore: order_items
     listens_to_filters: []
     field: order_items.created_month_name
