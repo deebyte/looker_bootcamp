@@ -1,6 +1,8 @@
 view: users {
   sql_table_name: public.users ;;
 
+  #remember to add a description
+
   dimension: id {
     hidden:  no
     primary_key: yes
