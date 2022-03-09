@@ -1,8 +1,8 @@
-# The name of this view in Looker is "Users"
-view: users {
+# The name of this view in Looker is "Users Back"
+view: users_back {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: `looker-onboarding.ecommerce.users`
+  sql_table_name: `looker-onboarding.ecommerce.users_back`
     ;;
   drill_fields: [id]
   # This primary key is the unique key for this table in the underlying database.
@@ -112,18 +112,6 @@ view: users {
 
   measure: count {
     type: count
-    drill_fields: [detail*]
-  }
-
-  # ----- Sets of fields for drilling ------
-  set: detail {
-    fields: [
-      id,
-      last_name,
-      first_name,
-      aggregation.count,
-      events.count,
-      order_items.count
-    ]
+    drill_fields: [id, last_name, first_name]
   }
 }
