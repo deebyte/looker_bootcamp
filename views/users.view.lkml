@@ -27,6 +27,14 @@ view: users {
   # measures for this dimension, but you can also add measures of many different aggregates.
   # Click on the type parameter to see all the options in the Quick Help panel on the right.
 
+  dimension:  age_groups{
+    type: tier
+    tiers: [18,25,35,45,55,65,75,90]
+    sql:  ${age};;
+    style: integer
+    }
+
+
   measure: total_age {
     type: sum
     sql: ${age} ;;
