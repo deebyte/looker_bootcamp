@@ -18,12 +18,12 @@ view: users {
   ## Exercise 1 - Task 2: Create buckets for ages groups: 18,25,35,45,55,65,75,90
   ## Uncomment (remove hashes) and complete the code below
 
-  # dimension:  {
-  #   type:
-  #   tiers: [18,25,35,45,55,65,75,90]
-  #   sql:  ;;
-  #   style: interval
-  # }
+  dimension:  age_groups{
+    type: tier
+    tiers: [18,25,35,45,55,65,75,90]
+    sql:  ${age};;
+    style: integer
+  }
 
 
 
