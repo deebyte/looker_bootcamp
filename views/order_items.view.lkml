@@ -121,8 +121,8 @@ view: order_items {
     sql: DATEDIFF(day, ${order_items.shipped_date}, ${order_items.delivered_date}) ;;
   }
 
- ## Exercise 1 - Task 4: Create a Shipping Days dimension that calculates the number of days between order ship date and order delivered date
- ## Hint: See dimension below if you're having trouble
+  ## Exercise 1 - Task 4: Create a Shipping Days dimension that calculates the number of days between order ship date and order delivered date
+  ## Hint: See dimension below if you're having trouble
 
 
 
@@ -135,7 +135,7 @@ view: order_items {
       day,
       week
     ]
-    sql_start: ${shipped_date} ;;
+    sql_start: ${created_date} ;;
     sql_end: ${delivered_date} ;;
   }
 
@@ -260,6 +260,13 @@ view: order_items {
   #   sql: ;;
   #   filters: [users.traffic_source: ""]
   # }
+
+
+  measure: count_orders{
+    label: "Distinct Orders"
+    type: count_distinct
+    sql: ${order_id} ;;
+  }
 
 
   ##

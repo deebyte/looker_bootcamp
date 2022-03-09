@@ -18,12 +18,12 @@ view: users {
   ## Exercise 1 - Task 2: Create buckets for ages groups: 18,25,35,45,55,65,75,90
   ## Uncomment (remove hashes) and complete the code below
 
-  # dimension:  {
-  #   type:
-  #   tiers: [18,25,35,45,55,65,75,90]
-  #   sql:  ;;
-  #   style: interval
-  # }
+  dimension: age_groups {
+    type: tier
+    tiers: [18,25,35,45,55,65,75,90]
+    sql: ${age}  ;;
+    style: integer
+  }
 
 
 
@@ -38,7 +38,10 @@ view: users {
   ## Exercise 1 - Task 1: Create a dimension combining city & state
   ## Hint: Concatenation in Snowflake uses "||"
 
-
+  dimension:  city_state {
+    type: string
+    sql: ${city} || ' ' || ${state};;
+  }
 
 
   ##
@@ -63,6 +66,18 @@ view: users {
     ]
     sql: ${TABLE}.created_at ;;
   }
+
+  # dimension_group: delivery_times {
+  #   type: duration
+  #   intervals: [
+  #     hour,
+  #     day,
+  #     week
+  #   ]
+  #   sql_start: ${created_date} ;;
+  #   sql_end: ${created_date} ;;
+  # }
+
 
   dimension: days_since_sign_up {
     type: number
@@ -155,6 +170,12 @@ view: users {
 
   ## Exercise 1 - Task 3: Create a new dimension that determines whether Traffic Source is "Email"
   ## Hint: Look at the dimension below for a good example
+
+  dimension:  traffice_soure_email{
+    description: "Is the traffic source from Email"
+    type: yesno
+    sql: ${traffic_source} = 'Email'  ;;
+  }
 
 
 
