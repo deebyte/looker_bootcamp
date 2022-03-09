@@ -1,5 +1,12 @@
+# The name of this view in Looker is "Events"
 view: events {
-  sql_table_name: public.events ;;
+  # The sql_table_name parameter indicates the underlying database table
+  # to be used for all fields in this view.
+  sql_table_name: `looker-onboarding.ecommerce.events`
+    ;;
+  drill_fields: [id]
+  # This primary key is the unique key for this table in the underlying database.
+  # You need to define a primary key in a view in order to join to other views.
 
   dimension: id {
     primary_key: yes
@@ -7,14 +14,16 @@ view: events {
     sql: ${TABLE}.id ;;
   }
 
+  # Here's what a typical dimension looks like in LookML.
+  # A dimension is a groupable field that can be used to filter query results.
+  # This dimension will be called "Browser" in Explore.
+
   dimension: browser {
     type: string
     sql: ${TABLE}.browser ;;
   }
 
   dimension: city {
-    label: "City Name"
-    description: "this is my test description"
     type: string
     sql: ${TABLE}.city ;;
   }
@@ -25,6 +34,9 @@ view: events {
     sql: ${TABLE}.country ;;
   }
 
+  # Dates and timestamps can be represented in Looker using a dimension group of type: time.
+  # Looker converts dates and timestamps to the specified timeframes within the dimension group.
+
   dimension_group: created {
     type: time
     timeframes: [
@@ -34,17 +46,9 @@ view: events {
       week,
       month,
       quarter,
-      year,
-      day_of_year
+      year
     ]
     sql: ${TABLE}.created_at ;;
-  }
-
-
-  dimension: day_of_campaign {
-    hidden: yes
-    type: number
-    sql: 43 ;;
   }
 
   dimension: event_type {
@@ -75,6 +79,20 @@ view: events {
   dimension: sequence_number {
     type: number
     sql: ${TABLE}.sequence_number ;;
+  }
+
+  # A measure is a field that uses a SQL aggregate function. Here are defined sum and average
+  # measures for this dimension, but you can also add measures of many different aggregates.
+  # Click on the type parameter to see all the options in the Quick Help panel on the right.
+
+  measure: total_sequence_number {
+    type: sum
+    sql: ${sequence_number} ;;
+  }
+
+  measure: average_sequence_number {
+    type: average
+    sql: ${sequence_number} ;;
   }
 
   dimension: session_id {
@@ -110,59 +128,6 @@ view: events {
 
   measure: count {
     type: count
-    drill_fields: [id, users.id, users.first_name, users.last_name]
-  }
-
-  measure: count_events_facebook {
-    hidden: yes
-    type: count_distinct
-    sql: ${id} ;;
-    filters: {
-      field: traffic_source
-      value: "Facebook"
-    }
-  }
-
-
-
-  measure: count_events_search {
-    hidden: yes
-    type: count_distinct
-    sql: ${id} ;;
-    filters: {
-      field: traffic_source
-      value: "Search"
-    }
-  }
-
-
-
-  measure: count_events_organic {
-    hidden: yes
-    type: count_distinct
-    sql: ${id} ;;
-    filters: {
-      field: traffic_source
-      value: "Organic"
-    }
-  }
-
-
-
-
-  measure: testface {
-    type: count
-    html: <div class="vis">
-          <div class="vis-single-value" style="font-size:30px; background-image: linear-gradient(to right, #5A2FC2, #F84066); color:#ffffff">
-          <font color="#5A2FC2"><center><b>Day of campaign:</b>&nbsp; {{events.day_of_campaign._rendered_value}} / 90 </font>
-          <p><em>68% of Goal</em></p>
-          <p style="color:#ffffff;">{{ rendered_value }} Total Events </p>
-          <p style="float:left; font-family: Trebuchet MS;">
-          <i class="fa fa-facebook">&nbsp;</i> {{ events.count_events_facebook._rendered_value }} Events&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <i class="fa fa-search">&nbsp;</i> {{ events.count_events_search._rendered_value }} Events&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <i class="fa fa-leaf">&nbsp;</i> {{ events.count_events_organic._rendered_value }} Events</p></center>
-          </div>
-          </div>
-       ;;
+    drill_fields: [id, users.last_name, users.id, users.first_name]
   }
 }
