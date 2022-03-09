@@ -27,6 +27,12 @@ view: users {
   # measures for this dimension, but you can also add measures of many different aggregates.
   # Click on the type parameter to see all the options in the Quick Help panel on the right.
 
+  # dimension: age_groups {
+  #   type: tier
+  #   tiers: [18,25,35,45,55,65,75,90]
+  #   sql: ${age} ;;
+  #   style: interval
+  # }
   measure: total_age {
     type: sum
     sql: ${age} ;;
@@ -41,6 +47,18 @@ view: users {
     type: string
     sql: ${TABLE}.city ;;
   }
+
+  ## Exercise 1 - Task 1: Create a dimension combining city & state
+  ## Hint: Concatenation in Snowflake uses "||"
+
+
+
+  dimension : city_state  {
+    sql: ${city} || ' ' || ${state} ;;
+    type: string
+  }
+  ##
+
 
   dimension: country {
     type: string
