@@ -74,6 +74,7 @@ view: order_items {
     value_format_name: id
   }
 
+
   dimension_group: returned {
     type: time
     timeframes: [
@@ -123,6 +124,7 @@ view: order_items {
 
  ## Exercise 1 - Task 4: Create a Shipping Days dimension that calculates the number of days between order ship date and order delivered date
  ## Hint: See dimension below if you're having trouble
+
 
   dimension_group: delivery_times {
     type: duration
@@ -283,6 +285,13 @@ view: order_items {
   #   sql: 1.0 * ${} / NULLIF(${},0) ;;
   # }
 
+
+measure: count_orders {
+  label: "Distinct Order Ids"
+  type:  count_distinct
+  sql: ${order_id} ;;
+
+}
   ##
   # ----- Sets of fields for drilling ------
   set: detail {
