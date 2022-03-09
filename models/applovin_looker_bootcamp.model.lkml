@@ -1,5 +1,5 @@
 # Define the database connection to be used for this model.
-connection: "snowlooker"
+connection: "ecommerce"
 
 # include all the explores
 include: "/explores/*.explore"
