@@ -3,9 +3,9 @@ include: "/views/inventory_items.view.lkml"
 include: "/views/users.view.lkml"
 include: "/views/products.view.lkml"
 include: "/views/distribution_centers.view.lkml"
-include: "/views/user_facts.view.lkml"
-include: "/views/category_order_facts.view.lkml"
-include: "/views/user_order_sequence_facts.view.lkml"
+# include: "/views/user_facts.view.lkml"
+# include: "/views/category_order_facts.view.lkml"
+# include: "/views/user_order_sequence_facts.view.lkml"
 
 
 
@@ -47,18 +47,18 @@ explore: order_items {
     relationship: many_to_one
   }
 
-  join: user_facts {
-    view_label: "(2) Users"
-    type: left_outer
-    sql_on: ${users.id} = ${user_facts.user_id} ;;
-    relationship: one_to_one
-  }
+  # join: user_facts {
+  #   view_label: "(2) Users"
+  #   type: left_outer
+  #   sql_on: ${users.id} = ${user_facts.user_id} ;;
+  #   relationship: one_to_one
+  # }
 
-  join: category_order_facts {
-    type: left_outer
-    sql_on: ${products.category} = ${category_order_facts.category} ;;
-    relationship: many_to_one
-  }
+  # join: category_order_facts {
+  #   type: left_outer
+  #   sql_on: ${products.category} = ${category_order_facts.category} ;;
+  #   relationship: many_to_one
+  # }
 
   join: inventory_items {
     view_label: "(3) Inventory"
@@ -81,10 +81,10 @@ explore: order_items {
     relationship: many_to_one
   }
 
-  join: user_order_sequence_facts {
-    view_label: "(6) User Order Sequencing"
-    type: left_outer
-    sql_on: ${order_items.id} = ${user_order_sequence_facts.order_id} ;;
-    relationship: many_to_one
-  }
+  # join: user_order_sequence_facts {
+  #   view_label: "(6) User Order Sequencing"
+  #   type: left_outer
+  #   sql_on: ${order_items.id} = ${user_order_sequence_facts.order_id} ;;
+  #   relationship: many_to_one
+  # }
 }
