@@ -1,3 +1,3 @@
-# include: "/views/users.view.lkml"
+include: "/views/users.view.lkml"
 
-# explore: users {}
+explore: users {}
