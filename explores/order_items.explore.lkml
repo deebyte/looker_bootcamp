@@ -34,14 +34,12 @@ explore: order_items {
 
   # conditionally_filter: {filters:[: ""] unless: []}
 
-  # conditionally_filter: {filters:[order_items.created_date: "last 2 years"] unless: [user_id]}
-
   ##
 
 
   label: "Orders"
   view_label: "(1) Orders and Items"
-  persist_with:order_items_datagroup
+  # persist_with:
   join: users {
     view_label: "(2) Users"
     type: left_outer
