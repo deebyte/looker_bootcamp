@@ -41,20 +41,20 @@ datagroup: morning_dashboard {
 #                      Ensure that the cache age will never exceed 24 hours.  Apply this datagroup to the Users Explore
 # Hint: The Snowflake function to return the current date is "CURRENT_DATE()"
 
-# datagroup: 24_hour_cache_policy {
-#   sql_trigger:  ;;
-#   max_cache_age: ""
-# }
+datagroup: 24_hour_cache_policy {
+  sql_trigger: select CURRENT_DATE();;
+  max_cache_age: "24 hours"
+}
 
 ##
 
 ## Exercise 6 - Task 2: Set up an order_items datagroup that triggers any time the maximum created_at timestamp in the order_items table changes.
 #               Ensure that the cache age will never exceed 4 hours. Apply this data group to the Order Items Explore
 
-# datagroup: order_items_datagroup {
-#   sql_trigger: select max() from ;;
-#   max_cache_age: ""
-# }
+datagroup: order_items_datagroup {
+  sql_trigger: select max(order_items.created_time) from order_items;;
+  max_cache_age: "4 hour"
+}
 
 ##
 
