@@ -61,6 +61,7 @@ view: order_items {
     sql: ${TABLE}.order_id ;;
   }
 
+
   dimension_group: returned {
     type: time
     timeframes: [
@@ -83,11 +84,6 @@ view: order_items {
   # A measure is a field that uses a SQL aggregate function. Here are defined sum and average
   # measures for this dimension, but you can also add measures of many different aggregates.
   # Click on the type parameter to see all the options in the Quick Help panel on the right.
-
-  measure: total_sale_price {
-    type: sum
-    sql: ${sale_price} ;;
-  }
 
   measure: average_sale_price {
     type: average
@@ -113,6 +109,50 @@ view: order_items {
     sql: ${TABLE}.status ;;
   }
 
+  dimension: shipping_time {
+    description: "Shipping time in days"
+    type: number
+    sql: DATEDIFF(day, ${order_items.shipped_date}, ${order_items.delivered_date}) ;;
+  }
+
+  ## Exercise 1 - Task 4: Create a Shipping Days dimension that calculates the number of days between order ship date and order delivered date
+  ## Hint: See dimension below if you're having trouble
+
+
+  dimension_group: delivery_times {
+    type: duration
+    intervals: [
+      hour,
+      day,
+      week
+    ]
+    sql_start: ${created_date};;
+    sql_end: ${delivered_date} ;;
+  }
+
+
+
+##
+
+  dimension_group: shipping_times {
+    type: duration
+    intervals: [
+      hour,
+      day,
+      week
+    ]
+    sql_start: ${shipped_date} ;;
+    sql_end: ${delivered_date} ;;
+  }
+
+  dimension: months_since_signup {
+    description: "Time between current order and when that user was created"
+    type: number
+    sql: DATEDIFF('month',${users.created_raw},${created_raw}) ;;
+  }
+
+  ## HIDDEN DIMENSIONS ##
+
   dimension: user_id {
     type: number
     # hidden: yes
@@ -135,6 +175,37 @@ view: order_items {
     type: number
     sql: ${total_revenue}*1.0/nullif(${users.count},0) ;;
     value_format_name: usd
+  }
+
+  measure: total_sale_price {
+    type: sum
+    sql: ${sale_price} ;;
+  }
+
+  ## Exercise 3 - Task 1: Create a filtered measure that calculates the total sales for only users that came to the site through email
+
+  # measure: total_sales_email_users {
+  #   type:
+  #   sql: ;;
+  #   filters: [users.traffic_source: ""]
+  # }
+
+
+  ##
+
+  ## Exercise 3 - Task 2: Create a field that calculates the percentage of sales that are attributed to users coming the fomr email traffic
+
+  # measure: percentagle_sales_email_source {
+  #   type:
+  #   value_format_name:
+  #   sql: 1.0 * ${} / NULLIF(${},0) ;;
+  # }
+
+
+  measure: count_orders {
+    label: "Distinct Order Ids"
+    type:  count_distinct
+    sql: ${order_id} ;;
   }
 
   # ----- Sets of fields for drilling ------
